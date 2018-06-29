@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Introducción a JS</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Roboto>);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Roboto', sans-serif; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+
+      .red {
+        color: #ba2c2c;
+      }
+
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Introducción a JS
+
+---
+
+# Agenda
+
+1. Objetos (Object Literals)
+2. Arrays
+3. Funciones
+4. Clases (si tenemos tiempo)
+
+---
+
+#Antes de empezar...
+
+Scratches --> https://github.com/hxoht/scratches
+
+---
+
+class: left, middle
+
+# Objetos (Object Literals)
+
+Coleccion de atributos `clave - valor`.
+
+```javascript
+{
+  clave: 'valor'
+}
+```
+
+El valor puede ser de cualquier tipo (`number`, `string`, etc...), incluso otro objeto.
+
+```javascript
+{ // Puedo anidar objetos tanto como quiera
+  unNumero: 14.5,
+  unString: 'foo',
+  unArray: ['hola', 'mundo'],
+  alemania: {
+    te: {
+      quedaste: {
+        afuera: {
+          ...
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+# Objetos - Propiedades
+
+### Claves son strings
+
+Siempre son del tipo `string`.
+
+```javascript
+{ 
+  foo: 'bar',
+  0: 'El elemento cero'
+}
+
+// { 'foo': 'bar', '0': 'El elemento cero' }
+```
+
+### Se accede por clave
+
+```javascript
+const x = { foo: 'bar' };
+
+x.foo; // 'bar'
+
+x['foo'] // 'bar'
+```
+
+---
+
+# Arrays
+
+Coleccion de valores en orden.
+
+```javascript
+[1, 2, 3, 4, 5];
+```
+
+Los valores no tienen por que ser del mismo tipo
+
+```javascript
+[1.5, 'hello world!', { foo: 'bar' }];
+```
+
+Se acceden por índice (.red[arranca en 0])
+
+```javascript
+const arr = ['hello', 'world', '!'];
+
+arr[0]; // 'hello'
+
+arr[1]; // 'world'
+
+arr[2]; // '!'
+```
+
+---
+
+# Iteración - Objetos
+
+```javascript
+const puntajes = {
+  Argentina: 4,
+  Croacia: 9,
+  Nigeria: 3,
+  Islandia: 1
+};
+
+// Para objetos es for .. in
+for (key in puntajes) {
+  puntajes[key];
+}
+```
+
+---
+
+# Iteración - Arrays
+
+Para Arrays hay 2 formas de hacerlo:
+
+```javascript
+const nombres = ['Caro', 'Caru', 'Data'];
+```
+
+A. `for .. in`
+
+```javascript
+// En este caso `index` es el indice de cada elemento
+for (index in nombres) {
+  console.log(nombres[index]);
+}
+```
+
+B. `for .. of`
+
+```javascript
+// En este caso `value` es el valor que hay en el Array en el indice actual
+for (value of nombres) {
+ console.log(value); 
+}
+```
+
+---
+
+class: center middle
+
+# Dudas hasta acá?
+
+--
+
+...seguros?
+
+--
+
+...muy seguros?
+
+---
+
+#Que pasa si...
+
+```javascript
+const obj = { foo: 'bar' };
+
+obj['foo']; // (?)
+
+obj['bar']; // (?)
+
+
+
+const arr = [1, 2, 3];
+
+arr[1]; // (?)
+
+arr[3]; // (?)
+```
+
+---
+
+# Funciones
+
+Son otro tipo de objeto, como los que venimos viendo
+
+```javascript
+function add(x, y) {
+  return x + y; // Usamos return para especificar que devuelve la funcion
+}
+
+const x = add(10, 2); // 12
+```
+
+Pueden ser anónimas
+
+```javascript
+const sum = function (x, y) {
+  return x + y;
+}
+
+const response = sum(5, 4); // 9
+```
+
+Si mi función es anónima tengo que asignarla a una variable, no puedo declararla globalmente
+como a una funcion con nombre
+
+```javascript
+// No se como invocar a esta funcion  (-_-)
+function () {
+  ...
+}
+```
+
+---
+
+#Funciones como valor
+
+Como vimos recien las funciones se pueden asignar a variables como cualquier otro valor
+
+```javascript
+const x = function miFunc() {...};
+```
+
+Puedo ponerlas en objetos
+
+```javascript
+const Diego = {
+  edad: 60,
+  saludar: function () {
+    return 'EEEEHHHHHHHHHHHHHHHH';
+  }
+};
+
+Diego.saludar(); // 'EEEEHHHHHHHHHHHHHHHH'
+```
+
+Incluso puedo pasarlas como parámetro a otra función
+
+```javascript
+// Le paso a `map` una función para aplicar a cada elemento del Array
+arr.map(function (element) {
+  ...
+});
+```
+
+---
+
+# Arrow Functions
+
+A partir de ES2015 se agregó una sintaxis nueva para definir funciones
+
+```javascript
+const add = (x, y) => x + y; // Función de una sola línea
+add(2, 4); // 6
+```
+
+Las arrow fuctions son siempre anónimas. 
+
+Si la definimos en una sola línea devuelve el resultado de esa línea.
+
+Si lo que queremos poner requiere más de una línea podemos ponerle un cuerpo
+
+```javascript
+const add = (x, y) => {
+  return x + y; // Ojo, si no pongo el `return` no devuelve nada.
+}
+```
+
+---
+
+# Funciones - Retorno
+
+Las funciones *siempre* devuelven un valor. Si no hay una clausula `return` automaticamente se devuelve `undefined`.
+
+```javascript
+function add(x, y) {
+  x + y;
+}
+
+add(3, 5); // undefined
+```
+
+---
+
+class: center middle
+
+# Dudas hasta acá?
+
+---
+
+# Ejercicio
+
+A. Cree una función que tome un string y devuelva un Array con las palabras de ese string en minuscula.
+
+```javascript
+const respuesta = palabrasEnMinuscula('Te quedaste AFUERA Aleman!');
+respuesta; // ['te', 'quedaste', 'afuera', 'aleman!'];
+```
+
+.small[Tip: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split]
+
+---
+
+# Ejercicio - .red[Boss]
+
+B. Cree una funcion que tome un objeto y una función como argumento y aplique esa función a cada clave del objeto y devuelva un nuevo objeto
+
+```javascript
+function aplicarAClaves(obj, fn) {
+  ...
+}
+
+const puntajes = {
+  Argentina: 4,
+  Croacia: 9,
+  Nigeria: 3,
+  Islandia: 1
+};
+
+const puntajesEnMinuscula = aplicarAClaves(puntajes, (s) => s.toLowerCase());
+
+puntajesEnMinuscula;
+// {
+//   argentina: 4,
+//   croacia: 9,
+//   nigeria: 3,
+//   islandia: 1
+// }
+```
+
+---
+
+class: center middle
+
+# Gracias
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
